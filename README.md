@@ -33,8 +33,8 @@ You will need to install and link the peer dependecy react-native-gps-state
 
 ```sh
 npm install -S @digidem/react-native-geolocation
-npm install -S @digidem/react-native-gps-state
-npm link @digidem/react-native-gps-state
+npm install -S react-native-gps-state
+npm link react-native-gps-state
 ```
 
 ## Usage
