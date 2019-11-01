@@ -11,7 +11,7 @@
   "peerDependencies": {
     "react": "^16.0.0",
     "react-native": "~0.55.0",
-    "@digidem/react-native-gps-state": "^1.0.0"
+    "react-native-gps-state": "^2.0.0"
   },
   "devDependencies": {
     "babel-jest": "23.2.0",
@@ -20,7 +20,6 @@
     "jest": "23.3.0",
     "react": "16.4.1",
     "react-native": "0.56.0",
-    "@digidem/react-native-gps-state": "^1.0.0",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
