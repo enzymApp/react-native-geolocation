@@ -80,7 +80,9 @@ class GeoLocation {
 
     // Request permissions
     try {
-      await requestLocationPermission()
+      if (Platform.OS === 'android') {
+        await requestLocationPermission()
+      }
     } catch (err) {
       return onError(err)
     }
