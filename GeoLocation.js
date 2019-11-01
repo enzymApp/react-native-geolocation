@@ -1,4 +1,4 @@
-import { PermissionsAndroid } from 'react-native'
+import { PermissionsAndroid, Platform } from 'react-native'
 import GPSState from 'react-native-gps-state'
 
 // Timeout waiting for a GPS position
