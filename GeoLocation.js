@@ -1,4 +1,5 @@
 import { PermissionsAndroid, Platform } from 'react-native'
+import RNGeolocation from '@react-native-community/geolocation'
 import GPSState from 'react-native-gps-state'
 
 // Timeout waiting for a GPS position
@@ -40,7 +41,7 @@ const statusCodes = {
  * @class GeoLocation
  */
 class GeoLocation {
-  constructor (options) {
+  constructor(options) {
     this.started = false
   }
 
@@ -75,7 +76,7 @@ class GeoLocation {
    * object with an additional `PositionError.code` (see above)
    * @memberof GeoLocation
    */
-  async startObserving (onLocation, onError) {
+  async startObserving(onLocation, onError) {
     if (this.started) throw Error('Called startObserving more than once')
 
     // Request permissions
@@ -113,7 +114,7 @@ class GeoLocation {
     // At the same time start search for high accuracy location
     this.watchId = watchPositionUntilAccurate(onUpdate, onError)
 
-    function onUpdate (position) {
+    function onUpdate(position) {
       if (!position) {
         position = { status: statusCodes.SEARCHING }
       } else if (position.coords.accuracy > MAX_ACCURACY) {
@@ -130,9 +131,9 @@ class GeoLocation {
    *
    * @memberof GeoLocation
    */
-  stopObserving () {
+  stopObserving() {
     if (typeof this.watchId === 'undefined') return
-    navigator.geolocation.clearWatch(this.watchId)
+    RNGeolocation.clearWatch(this.watchId)
     GPSState.removeListener()
   }
 }
@@ -147,8 +148,8 @@ export default GeoLocation
  * MAX_AGE milliseconds old
  * @private
 **/
-function getInitialPosition (success, error) {
-  navigator.geolocation.getCurrentPosition(success, error, {
+function getInitialPosition(success, error) {
+  RNGeolocation.getCurrentPosition(success, error, {
     enableHighAccuracy: false,
     timeout: TIMEOUT,
     maximumAge: MAX_AGE
@@ -159,8 +160,8 @@ function getInitialPosition (success, error) {
  * Starts watching the location (updates every 1000ms on most phones)
  * @private
  */
-function watchPositionUntilAccurate (success, error) {
-  return navigator.geolocation.watchPosition(success, error, {
+function watchPositionUntilAccurate(success, error) {
+  return RNGeolocation.watchPosition(success, error, {
     enableHighAccuracy: true,
     timeout: TIMEOUT,
     maximumAge: 2000,
@@ -173,8 +174,8 @@ function watchPositionUntilAccurate (success, error) {
  * instead set a distanceFilter to only update the location when the user moves
  * @private
  */
-function watchPositionForMovement (success, error) {
-  return navigator.geolocation.watchPosition(success, error, {
+function watchPositionForMovement(success, error) {
+  return RNGeolocation.watchPosition(success, error, {
     enableHighAccuracy: true,
     timeout: TIMEOUT,
     maximumAge: 0,
@@ -186,7 +187,7 @@ function watchPositionForMovement (success, error) {
  * Request permission to access location. Throws an error if permission is denied
  * @private
  */
-async function requestLocationPermission () {
+async function requestLocationPermission() {
   let granted
   try {
     granted = await PermissionsAndroid.requestMultiple([
@@ -201,7 +202,7 @@ async function requestLocationPermission () {
   }
 }
 
-function createError (msg, errorCode) {
+function createError(msg, errorCode) {
   const err = new Error(msg)
   err.code = errorCode
   return err
